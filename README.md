@@ -1,6 +1,6 @@
-CivicTrack
-A Modern Full-Stack Civic Issue Tracking System
-Built with ASP.NET Core API & React
+CIVICTRACK
+A MODERN FULL-STACK CIVIC ISSUE TRACKING SYSTEM
+BUILT WITH ASP.NET CORE API & REACT
 
 🌟 Overview
 CivicTrack is a full-stack web application designed to bridge the gap between residents and city services. Residents can report infrastructure issues (like potholes or broken streetlights), while city workers can manage and resolve these requests through a secure, role-based workflow.
