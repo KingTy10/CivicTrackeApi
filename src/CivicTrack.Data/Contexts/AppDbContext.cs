@@ -5,14 +5,14 @@ using CivicTrack.Data.Entities; // This tells it where ServiceRequest lives
 
 namespace CivicTrack.Data.Contexts
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    // Change  to <User> right here:
+    public class AppDbContext : IdentityDbContext<User>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
 
-        // We use the full path here just to be 100% safe
-        public DbSet<CivicTrack.Data.Entities.ServiceRequest> ServiceRequests { get; set; }
+        public DbSet<ServiceRequest> ServiceRequests { get; set; }
     }
 }
