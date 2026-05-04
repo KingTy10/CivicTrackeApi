@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace CivicTrack.Data.Entities
 {
@@ -15,15 +17,24 @@ namespace CivicTrack.Data.Entities
         [Required]
         public string Description { get; set; } = string.Empty;
 
-        // Default to "Pending" as per your vision
         public string Status { get; set; } = "Pending";
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Foreign Key: Links the request to the Resident who created it
-        public string? UserId { get; set; } = string.Empty;
+        // Foreign Key: Links the request to the Resident/Citizen
+        public string? UserId { get; set; }
         
-        // Navigation Property: Allows EF to "join" the User table easily
-        public Microsoft.AspNetCore.Identity.IdentityUser? User { get; set; }
+        // Navigation Property for the Resident
+        public IdentityUser? User { get; set; }
+
+        // --- NEW WORKER TRACKING FIELDS ---
+        
+        // The ID of the worker currently assigned to the task
+       public string? AssignedWorkerId {get; set;}
+
+        // The ID of a worker who has "requested" to work on this
+        public string? RequestedByWorkerId { get; set; }
+
+        public string? ReporterEmail { get; set; }
     }
 }

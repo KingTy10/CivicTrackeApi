@@ -36,16 +36,29 @@ public class AccountController : ControllerBase
     return BadRequest(result.Errors);
 }
 
-    [HttpPost("login")]public async Task<IActionResult> Login([FromBody] CivicTrack.Api.DTOs.LoginModel model)
+    [HttpPost("login")]
+public async Task<IActionResult> Login([FromBody] CivicTrack.Api.DTOs.LoginModel model)
+{
+    var user = await _userManager.FindByEmailAsync(model.Email);
+    if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
     {
-        var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-        {
-            var token = await GenerateJwtToken(user); // Correct: waits for the task and gets the string
-            return Ok(new AuthResponse { Success = true, Token = token });
-        }
-        return Unauthorized();
+        var token = await GenerateJwtToken(user);
+        
+        
+        var roles = await _userManager.GetRolesAsync(user);
+        
+        
+        var primaryRole = roles.FirstOrDefault() ?? "Resident";
+
+        return Ok(new AuthResponse 
+        { 
+            Success = true, 
+            Token = token,
+            Role = primaryRole 
+        });
     }
+    return Unauthorized();
+}
     private async Task<string> GenerateJwtToken(IdentityUser user)
     {
     var jwtKey = _configuration["Jwt:Key"] ?? "Your_Super_Secret_Key_At_Least_32_Chars";
